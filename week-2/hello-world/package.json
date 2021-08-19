@@ -1,0 +1,8 @@
+{
+    "name": "hello-world",
+    "author": "Oksana Kustova",
+    "private": "true",
+    "dependencies": {
+        "express": "^4.17.1"
+    }
+}
