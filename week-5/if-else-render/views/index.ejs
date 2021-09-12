@@ -1,0 +1,34 @@
+<!--
+============================================
+Title: index.ejs
+Author: Oksana Kustova
+Date: 9/12/2021
+Description: The view for EJS Templates.
+===========================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>EJS Templates</title>  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+    crossorigin="anonymous"
+  />
+</head>
+<body class="container">
+    <div role="main" class="container">
+    <br/><br/>
+    <h2>Name List</h2>
+    <% if (!names.length) { %>
+        <div class="alert alert-warning" role="alert"><strong>List is empty!</strong></div>
+        <% } else { %>
+            <% for (let k = 0; k < names.length; k++) { %>
+                <div class="alert alert-success" role="alert"><strong><%= names[k] %></strong></div>
+            <% } %>   
+        <% } %>  
+   
+</div>
+    
+  </body>
+</html>
