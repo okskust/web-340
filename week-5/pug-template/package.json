@@ -1,0 +1,11 @@
+{
+  "name": "pug-template",
+  "author": "Oksana Kustova",
+  "private": "true",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http": "^0.0.1-security",
+    "path": "^0.12.7",
+    "pug": "^3.0.2"
+  }
+}
