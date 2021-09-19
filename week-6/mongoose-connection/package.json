@@ -1,0 +1,11 @@
+{
+    "name": "routes",
+    "author": "Oksana Kustova",
+    "private": "true",
+    "dependencies": {
+        "express": "^4.17.1",
+        "http": "^0.0.1-security",
+        "mongoose": "^5.13.9",
+        "morgan": "^1.10.0"
+    }
+}
