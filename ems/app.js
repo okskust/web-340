@@ -12,6 +12,21 @@ let express = require("express");
 let http = require("http");
 let path = require("path");
 let logger = require("morgan");
+let mongoose = require("mongoose");
+let Employee = require("./models/employee");
+
+//MongoDB connection
+let mongoDB =
+  "mongodb+srv://admin:8520@kustova-ems.l7lk1.mongodb.net/kustova-ems?retryWrites=true&w=majority";
+mongoose.connect(mongoDB, {
+  useMongoClient: true,
+});
+mongoose.Promise = global.Promise;
+let db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error: "));
+db.once("open", function () {
+  console.log("Application connected to mLab MongoDB instance");
+});
 
 //Calls the express function to start a new Express application.
 let app = express();
