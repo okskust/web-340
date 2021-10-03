@@ -14,7 +14,10 @@ let path = require("path");
 let logger = require("morgan");
 let mongoose = require("mongoose");
 let Employee = require("./models/employee");
-var helmet = require("helmet");
+let helmet = require("helmet");
+let bodyParser = require("body-parser");
+let cookieParser = require("cookie-parser");
+let csrf = require("csurf");
 
 //MongoDB connection
 let mongoDB =
@@ -29,6 +32,9 @@ db.once("open", function () {
   console.log("Application connected to mLab MongoDB instance");
 });
 
+//Sets up CSRF protection.
+let csrfProtection = csrf({ cookie: true });
+
 //Calls the express function to start a new Express application.
 let app = express();
 
@@ -39,11 +45,49 @@ app.set("views", path.resolve(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(logger("short"));
 
+// Helmet
+app.use(helmet.xssFilter());
+
+// Body parser
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+
+// Cookie parser
+app.use(cookieParser());
+
+// CSRF protection
+app.use(csrfProtection);
+
+//Intercepts all incoming requests and adds a CSRF token to the response.
+app.use(function (request, response, next) {
+  var token = request.csrfToken();
+  response.cookie("XSRF-TOKEN", token);
+  response.locals.csrfToken = token;
+  next();
+});
+
 //Called when a request to the root is made
 app.get("/", function (request, response) {
   response.render("index", {
     title: "Home page",
   });
+});
+
+//Redirects users to the 'new' page.
+app.get('/new', function(req, res) {
+  res.render('new', {
+    title: 'EMS | New'
+  });
+});
+
+
+app.post("/process", function(request, response) {
+  console.log(request.body.txtFirstName);
+  console.log(request.body.txtLastName);
+  response.redirect("/");
 });
 
 //Starts the server.
