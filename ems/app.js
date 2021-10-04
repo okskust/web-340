@@ -77,17 +77,53 @@ app.get("/", function (request, response) {
 });
 
 //Redirects users to the 'new' page.
-app.get('/new', function(req, res) {
-  res.render('new', {
-    title: 'EMS | New'
+app.get("/new", function (request, response) {
+  response.render("new", {
+    title: "EMS | New",
   });
 });
 
+//Redirects users to the page with list of employees.
+app.get("/list", function (request, response) {
+  Employee.find({}, function (error, employees) {
+    if (error) throw error;
+    response.render("list", {
+      title: "Employee List",
+      employees: employees,
+    });
+  });
+});
 
-app.post("/process", function(request, response) {
-  console.log(request.body.txtFirstName);
-  console.log(request.body.txtLastName);
-  response.redirect("/");
+app.post("/process", function (request, response) {
+  //console.log(request.body.txtFirstName);
+  //console.log(request.body.txtLastName);
+  if (!request.body.txtFirstName || !request.body.txtLastName) {
+    response.status(400).send("Entries must have a first name and a last name");
+    return;
+  }
+
+  // get the request's form data
+  let firstName = request.body.txtFirstName;
+  let lastName = request.body.txtLastName;
+  console.log(firstName);
+  console.log(lastName);
+
+  // create a Employee model
+  let employee = new Employee({
+    firstName: firstName,
+    lastName: lastName,
+  });
+
+  // save
+  employee.save(function (err) {
+    if (err) {
+      console.log(err);
+      throw err;
+    } else {
+      console.log(firstName + " " + lastName + " saved successfully!");
+      response.redirect("/");
+    }
+  });
 });
 
 //Starts the server.
