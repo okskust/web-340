@@ -126,6 +126,27 @@ app.post("/process", function (request, response) {
   });
 });
 
+//Redirects users to the page with employee's record.
+app.get("/view/:firstName/:lastName", function (request, response) {
+  let firstName = request.params.firstName;
+  let lastName = request.params.lastName;
+  Employee.find(
+    { firstName: firstName, lastName: lastName },
+    function (error, employees) {
+      if (error) throw error;
+      console.log(employees);
+      if (employees.length > 0) {
+        response.render("view", {
+          title: "Employee Record",
+          employee: employees,
+        });
+      } else {
+        response.redirect("/list");
+      }
+    }
+  );
+});
+
 //Starts the server.
 http.createServer(app).listen(8080, function () {
   console.log("Application started on port 8080!");
