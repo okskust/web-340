@@ -45,6 +45,9 @@ app.set("views", path.resolve(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(logger("short"));
 
+//The applications port variable
+app.set("port", process.env.PORT || 8080);
+
 // Helmet
 app.use(helmet.xssFilter());
 
@@ -148,6 +151,7 @@ app.get("/view/:firstName/:lastName", function (request, response) {
 });
 
 //Starts the server.
-http.createServer(app).listen(8080, function () {
-  console.log("Application started on port 8080!");
+http.createServer(app).listen(app.get("port"), function () {
+  console.log("Application started on port " + app.get("port"));
 });
+//http.createServer(app).listen(8080, function () {console.log("Application started on port 8080!");});
